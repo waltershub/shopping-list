@@ -1,47 +1,74 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import data from './exampleData';
+
 
 class App extends React.Component {
   constructor(){
     super();
     this.state ={
-      shoppingList: data.data,
-      listField:'Your list goes here',
+      shoppingList: [],
+      listField:'',
 
 
     };
     this.handelSubmit = this.handelSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleCheckbox = this.handleCheckbox.bind(this);
+    this.handleSave= this.handleSave.bind(this);
   }
 
   handleChange(event) {
-    this.setState({listField: event.target.value});
+    var noExtraWhitespace = event.target.value.replace(/\s{2,}/g, ' ');
+    this.setState({listField: noExtraWhitespace});
+  }
+  handleCheckbox(value){
+
+    var TempItems = this.state.shoppingList;
+
+    TempItems[value].bought = !TempItems[value].bought;
+    this.setState({shoppingList:TempItems});
+
   }
 
   handelSubmit(event){
-    var store = 'koherMarket';
-    var user = 'walter';
-    console.log(this.state.listField);
+
     var items = this.state.listField.split(" ");
     this.setState({listField: ''});
     items.forEach((item)=>{
+    var tempData = this.state.shoppingList;
       var shopObject = {
-        id:data.data[data.data.length-1].id+1,
+        id:tempData.length,
         store:'kosher market',
         user:'walter',
         item: item,
         bought:false
       };
-      data.data.push(shopObject);
-      this.setState({shoppingList:data.data});
+      tempData.push(shopObject);
+      this.setState({shoppingList:tempData});
+    });
+
+  }
+
+  handleSave(event){
+    var data = {};
+     //data.data = JSON.stringify(this.state.shoppingList);
+     data.list =this.state.shoppingList;
+
+    console.log(data);
+    fetch('/lists',{
+      method: 'POST',
+      headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      },
+      body:JSON.stringify(data),
+
+
     });
 
   }
 
   render(){
-    console.log(this.state.shoppingList);
-    console.log(this.state.listField);
     return(
       <center>
         <h1>A.D.D Shopping List</h1>
@@ -53,8 +80,12 @@ class App extends React.Component {
             <div>
             <List
               list={this.state.shoppingList}
+              handleCheckbox ={this.handleCheckbox}
             />
             </div>
+          <div>
+            <button type = "button" onClick={this.handleSave}>save list</button>
+          </div>
         </center>
         );
     }
@@ -69,8 +100,11 @@ return(
     List
     {props.list.map(item =>
       <ShopItem
+        handleCheckbox ={props.handleCheckbox}
         key = {item.id}
-        item={item.item}/>
+        item={item.item}
+        id = {item.id}/>
+
     )}
   </div>
 );
@@ -78,11 +112,12 @@ return(
 
 var ShopItem = (props) =>
 {
-console.log(props);
+
+
 return (
-  //console.log(props)
+
   <div>
-     <input type="checkbox" id="shopItem" value="item">
+     <input id={props.id} type="checkbox" id="shopItem" value="item" onChange={()=>{props.handleCheckbox(props.id);}}>
      </input>
      <label >{props.item}</label>
   </div>

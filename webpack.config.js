@@ -2,7 +2,7 @@ var webpack = require('webpack');
 var path = require('path');
 
 const config = {
-  devtool: 'inline-source-map',
+  // devtool: 'inline-source-map',
 
   entry: [
     path.resolve(__dirname, 'src/index.js')
