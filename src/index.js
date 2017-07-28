@@ -8,15 +8,35 @@ class App extends React.Component {
     this.state ={
       shoppingList: data.data,
       listField:'Your list goes here',
-      store:'kosher market',
-      id:1
+
 
     };
+    this.handelSubmit = this.handelSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(event) {
     this.setState({listField: event.target.value});
+  }
+
+  handelSubmit(event){
+    var store = 'koherMarket';
+    var user = 'walter';
+    console.log(this.state.listField);
+    var items = this.state.listField.split(" ");
+    this.setState({listField: ''});
+    items.forEach((item)=>{
+      var shopObject = {
+        id:data.data[data.data.length-1].id+1,
+        store:'kosher market',
+        user:'walter',
+        item: item,
+        bought:false
+      };
+      data.data.push(shopObject);
+      this.setState({shoppingList:data.data});
+    });
+
   }
 
   render(){
@@ -25,10 +45,10 @@ class App extends React.Component {
     return(
       <center>
         <h1>A.D.D Shopping List</h1>
-          <textarea  rows="4" cols="25" value={this.state.listField} onChange={this.handleChange} >
+          <textarea placeholder="Your list goes here" rows="4" cols="25" value={this.state.listField} onChange={this.handleChange} >
             </textarea>
             <div>
-            <button type="button">Submit!</button>
+            <button type="button" onClick={this.handelSubmit}>Submit!</button>
             </div>
             <div>
             <List
