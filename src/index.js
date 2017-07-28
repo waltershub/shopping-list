@@ -6,15 +6,26 @@ class App extends React.Component {
   constructor(){
     super();
     this.state ={
-      shoppingList: data.data
+      shoppingList: data.data,
+      listField:'Your list goes here',
+      store:'kosher market',
+      id:1
+
     };
+    this.handleChange = this.handleChange.bind(this);
   }
+
+  handleChange(event) {
+    this.setState({listField: event.target.value});
+  }
+
   render(){
     console.log(this.state.shoppingList);
+    console.log(this.state.listField);
     return(
       <center>
         <h1>A.D.D Shopping List</h1>
-          <textarea rows="4" cols="50">
+          <textarea  rows="4" cols="25" value={this.state.listField} onChange={this.handleChange} >
             </textarea>
             <div>
             <button type="button">Submit!</button>
@@ -50,8 +61,10 @@ var ShopItem = (props) =>
 console.log(props);
 return (
   //console.log(props)
-  <div >
-    <div>{props.item}</div>
+  <div>
+     <input type="checkbox" id="shopItem" value="item">
+     </input>
+     <label >{props.item}</label>
   </div>
 
 );

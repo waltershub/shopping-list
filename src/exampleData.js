@@ -1,13 +1,17 @@
+var id = 0;
+var user = 'walter';
+var store = 'kosher market';
+
 var data =[{
-    id:0,
-    user:'',
-    store:'',
+    id:id++,
+    user:user,
+    store:store,
     item:'ketchup',
   },
   {
-    id:1,
-    user:'',
-    store:'',
+    id: id++,
+    user:user,
+    store:store,
     item:'mayonaze',
   },
 ];
