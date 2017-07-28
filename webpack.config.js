@@ -13,6 +13,9 @@ const config = {
     publicPath: '/',
     filename: 'bundle.js'
   },
+  resolve: {
+    extensions: ['.js', '.jsx'],
+  },
   module: {
     rules: [
       {
@@ -22,7 +25,7 @@ const config = {
       }
     ],
     loaders: [
-      { test: /\.js$/, exclude: /node_modules/, loaders: ['babel-loader'] }
+      { test: /\.(js|jsx)$/, exclude: /node_modules/, loaders: ['babel-loader'] }
     ]
   }
 

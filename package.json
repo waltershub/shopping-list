@@ -2,7 +2,7 @@
   "name": "shoppinglist",
   "version": "1.0.0",
   "description": "shopping list app",
-  "main": "index.js",
+  "main": "index.jsx",
   "scripts": {
     "start": "node server/server.js ",
     "dev": "nodemon server/server.js & webpack -w"
