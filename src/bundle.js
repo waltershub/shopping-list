@@ -9898,62 +9898,66 @@ var App = function (_React$Component) {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        'center',
+        'div',
         null,
         _react2.default.createElement(
-          'h1',
-          null,
-          'A.D.D Shopping Lists'
-        ),
-        _react2.default.createElement(
-          'h2',
-          null,
-          this.state.user,
-          ' Lists'
-        ),
-        _react2.default.createElement('textarea', { placeholder: 'Your list goes here', rows: '4', cols: '25', value: this.state.listField, onChange: this.handleChange }),
-        _react2.default.createElement(
-          'div',
+          'center',
           null,
           _react2.default.createElement(
-            'button',
-            { type: 'button', onClick: this.handelSubmit },
-            'Submit!'
-          )
-        ),
-        _react2.default.createElement(
-          'div',
-          null,
-          _react2.default.createElement(List, {
-            list: this.state.shoppingList.filter(function (item) {
-              return item.bought === false;
-            }),
-            handleCheckbox: this.handleCheckbox
-          })
-        ),
-        _react2.default.createElement(
-          'div',
-          null,
+            'h1',
+            null,
+            'A.D.D Shopping Lists'
+          ),
           _react2.default.createElement(
-            'button',
-            { type: 'button', onClick: this.handleSave },
-            'save list'
-          )
-        ),
-        _react2.default.createElement(
-          'div',
-          null,
-          _react2.default.createElement(BoughtList, { list: this.state.shoppingList.filter(function (item) {
-              return item.bought === true;
-            }) })
-        ),
-        _react2.default.createElement(
-          'div',
-          null,
+            'h2',
+            null,
+            this.state.user,
+            ' Lists'
+          ),
+          _react2.default.createElement('textarea', { placeholder: 'Your list goes here', rows: '4', cols: '25', value: this.state.listField, onChange: this.handleChange }),
           _react2.default.createElement(
-            'button',
-            { type: 'button', onClick: this.handleGet },
-            'get saveds lists'
+            'div',
+            null,
+            _react2.default.createElement(
+              'button',
+              { type: 'button', onClick: this.handelSubmit },
+              'Submit!'
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement(List, {
+              list: this.state.shoppingList.filter(function (item) {
+                return item.bought === false;
+              }),
+              handleCheckbox: this.handleCheckbox
+            })
+          ),
+          _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement(
+              'button',
+              { type: 'button', onClick: this.handleSave },
+              'save list'
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement(BoughtList, { list: this.state.shoppingList.filter(function (item) {
+                return item.bought === true;
+              }) })
+          ),
+          _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement(
+              'button',
+              { type: 'button', onClick: this.handleGet },
+              'get saveds lists'
+            )
           )
         ),
         _react2.default.createElement(
@@ -22551,7 +22555,6 @@ var Savedlists = function Savedlists(props) {
   return _react2.default.createElement(
     'div',
     { className: 'lists' },
-    'lists coming soon',
     props.lists.map(function (list, i) {
       return _react2.default.createElement(_savedlist2.default, {
         key: i,
@@ -22589,7 +22592,6 @@ var Savedlist = function Savedlist(props) {
   return _react2.default.createElement(
     'div',
     null,
-    'List',
     props.list.date,
     props.list.items.map(function (item, i) {
       return _react2.default.createElement(_saveditem2.default, {

@@ -5,7 +5,6 @@ var Savedlist = (props) =>{
  console.log("savedlist", props);
   return(
     <div>
-       List
        {props.list.date}
        {props.list.items.map((item ,i)=>
          <SavedItem

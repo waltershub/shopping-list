@@ -93,6 +93,7 @@ class App extends React.Component {
 
   render(){
     return(
+      <div>
       <center>
         <h1>A.D.D Shopping Lists</h1>
           <h2>{this.state.user} Lists</h2>
@@ -116,12 +117,13 @@ class App extends React.Component {
         <div>
           <button type = "button" onClick={this.handleGet}>get saveds lists</button>
         </div>
-
+          </center>
       <div>
         Savedlists
         <SavedLists lists={this.state.savedItems}/>
       </div>
-        </center>
+
+      </div>
         );
     }
 }
