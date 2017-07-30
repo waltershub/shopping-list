@@ -9798,7 +9798,8 @@ var App = function (_React$Component) {
 
     _this.state = {
       shoppingList: [],
-      listField: ''
+      listField: '',
+      user: "Walter"
 
     };
     _this.handelSubmit = _this.handelSubmit.bind(_this);
@@ -9835,9 +9836,10 @@ var App = function (_React$Component) {
         var shopObject = {
           id: tempData.length,
           store: 'kosher market',
-          user: 'walter',
           item: item,
+          quantity: 1,
           bought: false
+
         };
         tempData.push(shopObject);
         _this2.setState({ shoppingList: tempData });
@@ -9847,8 +9849,13 @@ var App = function (_React$Component) {
     key: 'handleSave',
     value: function handleSave(event) {
       var data = {};
-      //data.data = JSON.stringify(this.state.shoppingList);
-      data.list = this.state.shoppingList;
+      var date = new Date();
+      data.user = this.state.user;
+      data.date = date.toDateString();
+      data.items = this.state.shoppingList;
+      data.items.forEach(function (item) {
+        return delete item.id;
+      });
 
       console.log(data);
       fetch('/lists', {
@@ -9870,7 +9877,13 @@ var App = function (_React$Component) {
         _react2.default.createElement(
           'h1',
           null,
-          'A.D.D Shopping List'
+          'A.D.D Shopping Lists'
+        ),
+        _react2.default.createElement(
+          'h2',
+          null,
+          this.state.user,
+          ' Lists'
         ),
         _react2.default.createElement('textarea', { placeholder: 'Your list goes here', rows: '4', cols: '25', value: this.state.listField, onChange: this.handleChange }),
         _react2.default.createElement(
@@ -9886,7 +9899,9 @@ var App = function (_React$Component) {
           'div',
           null,
           _react2.default.createElement(List, {
-            list: this.state.shoppingList,
+            list: this.state.shoppingList.filter(function (item) {
+              return item.bought === false;
+            }),
             handleCheckbox: this.handleCheckbox
           })
         ),
@@ -9898,6 +9913,13 @@ var App = function (_React$Component) {
             { type: 'button', onClick: this.handleSave },
             'save list'
           )
+        ),
+        _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(BoughtList, { list: this.state.shoppingList.filter(function (item) {
+              return item.bought === true;
+            }) })
         )
       );
     }
@@ -9907,7 +9929,6 @@ var App = function (_React$Component) {
 }(_react2.default.Component);
 
 var List = function List(props) {
-
   return _react2.default.createElement(
     'div',
     { className: 'list' },
@@ -9938,7 +9959,33 @@ var ShopItem = function ShopItem(props) {
     )
   );
 };
+var BoughtList = function BoughtList(props) {
 
+  return _react2.default.createElement(
+    'div',
+    { className: 'list' },
+    'Bought list',
+    props.list.map(function (item) {
+      return _react2.default.createElement(BoughtItem, {
+
+        key: item.id,
+        item: item.item,
+        id: item.id });
+    })
+  );
+};
+
+var BoughtItem = function BoughtItem(props) {
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(
+      'label',
+      null,
+      props.item
+    )
+  );
+};
 _reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('root'));
 
 /***/ }),

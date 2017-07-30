@@ -4,12 +4,22 @@ var open = require('open');
 var webpack = require('webpack');
 var config  = require('../webpack.config');
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 var bodyParser = require('body-parser');
 
 mongoose.connect('mongodb://localhost/test');
 const compiler = webpack(config);
 const port = 3000;
 const app = express();
+
+// var lists = new Schema({
+//   store: String,
+//   User: String,
+//   item: String,
+//   quantity: Number,
+//   bought: Boolean
+//
+// });
 
 app.use(require('webpack-dev-middleware')(compiler, {
   noInfo: true,
@@ -38,7 +48,7 @@ app.post('/lists',(req ,res)=>{
   //   res.send(200);
   // });
 
-    console.log(req.body.list);
+    console.log(req.body);
     res.send("succses");
 
 });

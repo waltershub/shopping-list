@@ -8,7 +8,7 @@ class App extends React.Component {
     this.state ={
       shoppingList: [],
       listField:'',
-
+      user: "Walter"
 
     };
     this.handelSubmit = this.handelSubmit.bind(this);
@@ -39,9 +39,10 @@ class App extends React.Component {
       var shopObject = {
         id:tempData.length,
         store:'kosher market',
-        user:'walter',
         item: item,
+        quantity: 1,
         bought:false
+
       };
       tempData.push(shopObject);
       this.setState({shoppingList:tempData});
@@ -51,8 +52,11 @@ class App extends React.Component {
 
   handleSave(event){
     var data = {};
-     //data.data = JSON.stringify(this.state.shoppingList);
-     data.list =this.state.shoppingList;
+    var date = new Date;
+     data.user = this.state.user;
+     data.date = date.toDateString();
+     data.items =this.state.shoppingList;
+     data.items.forEach(item => delete item.id);
 
     console.log(data);
     fetch('/lists',{
@@ -71,7 +75,8 @@ class App extends React.Component {
   render(){
     return(
       <center>
-        <h1>A.D.D Shopping List</h1>
+        <h1>A.D.D Shopping Lists</h1>
+          <h2>{this.state.user} Lists</h2>
           <textarea placeholder="Your list goes here" rows="4" cols="25" value={this.state.listField} onChange={this.handleChange} >
             </textarea>
             <div>
@@ -79,13 +84,16 @@ class App extends React.Component {
             </div>
             <div>
             <List
-              list={this.state.shoppingList}
+              list={this.state.shoppingList.filter(item => item.bought === false)}
               handleCheckbox ={this.handleCheckbox}
             />
             </div>
           <div>
             <button type = "button" onClick={this.handleSave}>save list</button>
           </div>
+        <div>
+          <BoughtList list={this.state.shoppingList.filter(item => item.bought === true)}/>
+        </div>
         </center>
         );
     }
@@ -94,11 +102,11 @@ class App extends React.Component {
 var List = (props)=>
 
 {
-
 return(
   <div className = "list">
     List
     {props.list.map(item =>
+
       <ShopItem
         handleCheckbox ={props.handleCheckbox}
         key = {item.id}
@@ -107,7 +115,7 @@ return(
 
     )}
   </div>
-);
+  );
 };
 
 var ShopItem = (props) =>
@@ -124,5 +132,31 @@ return (
 
 );
 };
+var BoughtList = (props)=>
 
+{
+
+return(
+  <div className = "list">
+    Bought list
+    {props.list.map(item =>
+
+      <BoughtItem
+
+        key = {item.id}
+        item={item.item}
+        id = {item.id}/>
+
+    )}
+  </div>
+);
+};
+
+var  BoughtItem = (props)=>{
+  return(
+    <div>
+       <label >{props.item}</label>
+    </div>
+  );
+};
 ReactDOM.render(<App />, document.getElementById('root'));
