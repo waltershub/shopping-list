@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import SavedLists from "./savedlists";
 
 
 class App extends React.Component {
@@ -8,13 +9,14 @@ class App extends React.Component {
     this.state ={
       shoppingList: [],
       listField:'',
-      user: "Walter"
-
+      user: "Walter",
+      savedItems:[]
     };
     this.handelSubmit = this.handelSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleCheckbox = this.handleCheckbox.bind(this);
     this.handleSave= this.handleSave.bind(this);
+    this.handleGet = this.handleGet.bind(this);
   }
 
   handleChange(event) {
@@ -58,7 +60,6 @@ class App extends React.Component {
      data.items =this.state.shoppingList;
      data.items.forEach(item => delete item.id);
 
-    console.log(data);
     fetch('/lists',{
       method: 'POST',
       headers: {
@@ -70,6 +71,24 @@ class App extends React.Component {
 
     });
 
+  }
+  handleGet(event){
+    fetch(`/lists?${this.state.user}`,{
+      method: 'GET',
+      headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      },
+    }).then((data)=>{
+      return data.json();
+      //this.setState({savedItems:data.items})
+    }).then((data)=>{
+      console.log('data',data);
+      this.setState({savedItems:data});
+      console.log("yes",this.state.savedItems);
+    }).catch((err)=>{
+      throw err;
+    });
   }
 
   render(){
@@ -94,6 +113,14 @@ class App extends React.Component {
         <div>
           <BoughtList list={this.state.shoppingList.filter(item => item.bought === true)}/>
         </div>
+        <div>
+          <button type = "button" onClick={this.handleGet}>get saveds lists</button>
+        </div>
+
+      <div>
+        Savedlists
+        <SavedLists lists={this.state.savedItems}/>
+      </div>
         </center>
         );
     }

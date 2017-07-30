@@ -9778,6 +9778,10 @@ var _reactDom = __webpack_require__(99);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
+var _savedlists = __webpack_require__(186);
+
+var _savedlists2 = _interopRequireDefault(_savedlists);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -9799,13 +9803,14 @@ var App = function (_React$Component) {
     _this.state = {
       shoppingList: [],
       listField: '',
-      user: "Walter"
-
+      user: "Walter",
+      savedItems: []
     };
     _this.handelSubmit = _this.handelSubmit.bind(_this);
     _this.handleChange = _this.handleChange.bind(_this);
     _this.handleCheckbox = _this.handleCheckbox.bind(_this);
     _this.handleSave = _this.handleSave.bind(_this);
+    _this.handleGet = _this.handleGet.bind(_this);
     return _this;
   }
 
@@ -9857,7 +9862,6 @@ var App = function (_React$Component) {
         return delete item.id;
       });
 
-      console.log(data);
       fetch('/lists', {
         method: 'POST',
         headers: {
@@ -9866,6 +9870,28 @@ var App = function (_React$Component) {
         },
         body: JSON.stringify(data)
 
+      });
+    }
+  }, {
+    key: 'handleGet',
+    value: function handleGet(event) {
+      var _this3 = this;
+
+      fetch('/lists?' + this.state.user, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }).then(function (data) {
+        return data.json();
+        //this.setState({savedItems:data.items})
+      }).then(function (data) {
+        console.log('data', data);
+        _this3.setState({ savedItems: data });
+        console.log("yes", _this3.state.savedItems);
+      }).catch(function (err) {
+        throw err;
       });
     }
   }, {
@@ -9920,6 +9946,21 @@ var App = function (_React$Component) {
           _react2.default.createElement(BoughtList, { list: this.state.shoppingList.filter(function (item) {
               return item.bought === true;
             }) })
+        ),
+        _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(
+            'button',
+            { type: 'button', onClick: this.handleGet },
+            'get saveds lists'
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          null,
+          'Savedlists',
+          _react2.default.createElement(_savedlists2.default, { lists: this.state.savedItems })
         )
       );
     }
@@ -22483,6 +22524,111 @@ var ReactDOMInvalidARIAHook = {
 
 module.exports = ReactDOMInvalidARIAHook;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 185 */,
+/* 186 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(83);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _savedlist = __webpack_require__(187);
+
+var _savedlist2 = _interopRequireDefault(_savedlist);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Savedlists = function Savedlists(props) {
+  return _react2.default.createElement(
+    'div',
+    { className: 'lists' },
+    'lists coming soon',
+    props.lists.map(function (list, i) {
+      return _react2.default.createElement(_savedlist2.default, {
+        key: i,
+        list: list
+      });
+    })
+  );
+};
+
+exports.default = Savedlists;
+
+/***/ }),
+/* 187 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(83);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _saveditem = __webpack_require__(188);
+
+var _saveditem2 = _interopRequireDefault(_saveditem);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Savedlist = function Savedlist(props) {
+  console.log("savedlist", props);
+  return _react2.default.createElement(
+    'div',
+    null,
+    'List',
+    props.list.date,
+    props.list.items.map(function (item, i) {
+      return _react2.default.createElement(_saveditem2.default, {
+        key: i,
+        item: item
+      });
+    })
+  );
+};
+
+exports.default = Savedlist;
+
+/***/ }),
+/* 188 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(83);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SavedItem = function SavedItem(props) {
+  console.log("props", props);
+  return _react2.default.createElement(
+    "div",
+    null,
+    props.item.item
+  );
+};
+
+exports.default = SavedItem;
 
 /***/ })
 /******/ ]);

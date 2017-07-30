@@ -7,20 +7,19 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bodyParser = require('body-parser');
 
-mongoose.connect('mongodb://localhost/test');
+mongoose.connect('mongodb://dbadim:drum12@ds127963.mlab.com:27963/shoppinglists');
 const compiler = webpack(config);
 const port = 3000;
 const app = express();
 
-// var lists = new Schema({
-//   store: String,
-//   User: String,
-//   item: String,
-//   quantity: Number,
-//   bought: Boolean
-//
-// });
+var listSchema = new Schema({
+  date: String,
+  user: String,
+  items: Array
 
+});
+
+var List = mongoose.model('List', listSchema );
 app.use(require('webpack-dev-middleware')(compiler, {
   noInfo: true,
   publicPath: config.output.publicPath
@@ -43,12 +42,24 @@ app.get('/',  (req, res) => {
 });
 
 app.post('/lists',(req ,res)=>{
-  // req.on('data',(data)=> {
-  //   console.log(JSON.parse(data));
-  //   res.send(200);
-  // });
-
+    List.create(req.body, (error) => {
+      if (error) console.error("not created");
+      else{
+        console.log("ya!!");
+      }
+    });
     console.log(req.body);
     res.send("succses");
+});
+
+app.get('/lists' , (req ,res) =>{
+
+  List.find({user:Object.keys(req.query)[0]})
+  .then((data)=>{
+    console.log("yo mamma", data);
+    res.send(data);
+  }).catch((err)=>{
+    throw err;
+  });
 
 });
