@@ -9,7 +9,7 @@ var bodyParser = require('body-parser');
 
 mongoose.connect('mongodb://dbadim:drum12@ds127963.mlab.com:27963/shoppinglists');
 const compiler = webpack(config);
-const port = 3000;
+const port = process.env.PORT || 3000;
 const app = express();
 
 var listSchema = new Schema({

@@ -8,6 +8,8 @@ var Savedlist = (props) =>{
        {props.list.date}
        {props.list.items.map((item ,i)=>
          <SavedItem
+
+           save={props.save}
            key ={i}
            item ={item}
            />

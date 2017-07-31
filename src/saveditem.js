@@ -3,7 +3,7 @@ import React from 'react';
 var SavedItem = (props) =>{
 console.log("props" ,props);
 return(
-  <div>
+  <div value = {props.item} onClick ={props.save}>
     {props.item.item}
   </div>
 );

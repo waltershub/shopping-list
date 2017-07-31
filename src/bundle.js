@@ -9820,6 +9820,7 @@ var App = function (_React$Component) {
     _this.handleCheckbox = _this.handleCheckbox.bind(_this);
     _this.handleSave = _this.handleSave.bind(_this);
     _this.handleGet = _this.handleGet.bind(_this);
+    _this.handleFromSave = _this.handleFromSave.bind(_this);
     return _this;
   }
 
@@ -9866,7 +9867,7 @@ var App = function (_React$Component) {
       var date = new Date();
       data.user = this.state.user;
       data.date = date.toDateString();
-      data.items = this.state.shoppingList;
+      data.items = this.state.shoppingList.slice();
       data.items.forEach(function (item) {
         return delete item.id;
       });
@@ -9902,6 +9903,13 @@ var App = function (_React$Component) {
       }).catch(function (err) {
         throw err;
       });
+    }
+  }, {
+    key: 'handleFromSave',
+    value: function handleFromSave(event) {
+      var tempItems = this.state.shoppingList;
+      tempItems.push(this.event.target.value);
+      this.setState({ shoppingList: tempItems });
     }
   }, {
     key: 'render',
@@ -9973,7 +9981,9 @@ var App = function (_React$Component) {
           'div',
           null,
           'Savedlists',
-          _react2.default.createElement(_savedlists2.default, { lists: this.state.savedItems })
+          _react2.default.createElement(_savedlists2.default, {
+            save: this.handleFromSave,
+            lists: this.state.savedItems })
         )
       );
     }
@@ -22551,11 +22561,13 @@ var _savedlist2 = _interopRequireDefault(_savedlist);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Savedlists = function Savedlists(props) {
+  console.log('savedlists', props);
   return _react2.default.createElement(
     'div',
     { className: 'lists' },
     props.lists.map(function (list, i) {
       return _react2.default.createElement(_savedlist2.default, {
+        save: props.save,
         key: i,
         list: list
       });
@@ -22594,6 +22606,8 @@ var Savedlist = function Savedlist(props) {
     props.list.date,
     props.list.items.map(function (item, i) {
       return _react2.default.createElement(_saveditem2.default, {
+
+        save: props.save,
         key: i,
         item: item
       });
@@ -22624,7 +22638,7 @@ var SavedItem = function SavedItem(props) {
   console.log("props", props);
   return _react2.default.createElement(
     "div",
-    null,
+    { value: props.item, onClick: props.save },
     props.item.item
   );
 };

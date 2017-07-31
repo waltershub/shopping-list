@@ -17,6 +17,7 @@ class App extends React.Component {
     this.handleCheckbox = this.handleCheckbox.bind(this);
     this.handleSave= this.handleSave.bind(this);
     this.handleGet = this.handleGet.bind(this);
+    this.handleFromSave = this.handleFromSave.bind(this);
   }
 
   handleChange(event) {
@@ -57,7 +58,7 @@ class App extends React.Component {
     var date = new Date;
      data.user = this.state.user;
      data.date = date.toDateString();
-     data.items =this.state.shoppingList;
+     data.items =this.state.shoppingList.slice();
      data.items.forEach(item => delete item.id);
 
     fetch('/lists',{
@@ -91,6 +92,12 @@ class App extends React.Component {
     });
   }
 
+  handleFromSave(event){
+    var tempItems = this.state.shoppingList;
+    tempItems.push(this.event.target.value);
+    this.setState({shoppingList:tempItems});
+  }
+
   render(){
     return(
       <div>
@@ -120,7 +127,9 @@ class App extends React.Component {
           </center>
       <div>
         Savedlists
-        <SavedLists lists={this.state.savedItems}/>
+        <SavedLists
+          save={this.handleFromSave}
+          lists={this.state.savedItems}/>
       </div>
 
       </div>
