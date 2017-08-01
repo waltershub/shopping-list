@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bodyParser = require('body-parser');
 
-mongoose.connect('mongodb://dbadim:drum12@ds127963.mlab.com:27963/shoppinglists');
+mongoose.connect('');
 const compiler = webpack(config);
 const port = process.env.PORT || 3000;
 const app = express();
